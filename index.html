@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f0f0f">
+  <meta name="description" content="Baca komik online.">
+  <title>Komik — Baca Komik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;--bg:#0f0f0f;--panel:#171717;--panel2:#1e1e1e;--line:#292929;--muted:#929292;--text:#eee;--accent:#d7a64a;--danger:#d66b6b}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px}
+    button,input,select{font:inherit}button{cursor:pointer}.topbar{height:62px;position:sticky;top:0;z-index:20;background:rgba(15,15,15,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .topinner{max-width:1240px;height:100%;margin:auto;padding:0 22px;display:flex;align-items:center;gap:28px}.brand{font:700 27px "Barlow Condensed",sans-serif;letter-spacing:.4px;color:var(--text);text-decoration:none;white-space:nowrap}.brand span{color:var(--accent)}
+    nav{display:flex;gap:22px;height:100%;align-items:center}nav button,.navlink{border:0;background:none;color:#aaa;text-decoration:none;font-weight:600;padding:0;height:100%}nav button.active,nav button:hover,.navlink:hover{color:#fff}
+    .searchbox{margin-left:auto;display:flex;align-items:center;background:#1b1b1b;border:1px solid #303030;border-radius:7px;padding:0 11px;width:min(290px,35vw);height:37px;gap:8px}.searchbox input{width:100%;border:0;outline:0;background:transparent;color:#eee}.icon{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+    main{max-width:1240px;margin:0 auto;padding:25px 22px 70px}.view{display:none}.view.active{display:block}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:30px 0 15px}.sectionhead:first-child{margin-top:0}.sectionhead h2{font:600 25px "Barlow Condensed",sans-serif;letter-spacing:.2px;margin:0}.sectionhead small{color:var(--muted)}
+    .hero{position:relative;min-height:265px;border-radius:9px;overflow:hidden;background:#202020;margin-bottom:30px;display:flex;align-items:flex-end}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.94),rgba(0,0,0,.05) 85%)}.hero-copy{position:relative;z-index:1;padding:28px;max-width:650px}.eyebrow{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:1.3px;text-transform:uppercase}.hero h1{font:700 35px "Barlow Condensed",sans-serif;margin:7px 0}.hero p{color:#ccc;line-height:1.55;max-width:560px;margin:0 0 15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.primary,.secondary,.quiet{border:1px solid var(--line);border-radius:6px;padding:9px 14px;color:#eee;background:#252525;font-weight:600}.primary{background:var(--accent);border-color:var(--accent);color:#17130c}.primary:hover{filter:brightness(1.08)}.secondary:hover,.quiet:hover{background:#303030}
+    .comic-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px 15px}.comic{min-width:0;cursor:pointer}.cover{position:relative;aspect-ratio:3/4;background:#222;border-radius:5px;overflow:hidden;border:1px solid #292929}.cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}.comic:hover .cover img{transform:scale(1.035)}.status{position:absolute;left:6px;top:6px;background:rgba(12,12,12,.88);border:1px solid #444;color:#ddd;border-radius:3px;font-size:9px;padding:3px 5px;text-transform:uppercase;letter-spacing:.3px}.hot{position:absolute;right:6px;top:6px;background:#a54d37;color:white;border-radius:3px;padding:3px 5px;font-size:9px}.comic h3{font-size:12px;line-height:1.45;font-weight:600;margin:8px 0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}.comic-meta{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:4px}.empty{padding:34px;text-align:center;color:var(--muted);background:#171717;border:1px solid var(--line);border-radius:7px}
+    .skeleton-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px 15px}.sk-cover,.sk-line{background:linear-gradient(90deg,#202020 25%,#292929 40%,#202020 65%);background-size:300% 100%;animation:shimmer 1.5s ease infinite;border-radius:5px}.sk-cover{aspect-ratio:3/4}.sk-line{height:10px;margin-top:9px;width:85%}.sk-line.short{width:55%}@keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+    .filterbar{display:grid;grid-template-columns:2fr repeat(4,1fr) auto;gap:9px;margin:18px 0}.field{width:100%;height:39px;background:#191919;color:#ddd;border:1px solid #333;border-radius:5px;padding:0 10px;outline:none}.field:focus{border-color:#8b6b36}.detail-layout{display:grid;grid-template-columns:220px 1fr;gap:25px}.detail-cover{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:#222}.detail-info h1{font:700 34px "Barlow Condensed",sans-serif;margin:0 0 8px}.detail-sub{color:var(--muted);margin-bottom:14px}.detail-info p{color:#c4c4c4;line-height:1.75;white-space:pre-line}.tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.tag{font-size:11px;padding:5px 8px;background:#222;border:1px solid #333;border-radius:4px;color:#ccc}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0}.chapter-list{border:1px solid var(--line);border-radius:6px;overflow:hidden}.chapter-row{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;background:#171717;border-bottom:1px solid #252525;color:#ddd;text-decoration:none}.chapter-row:last-child{border:0}.chapter-row:hover{background:#222}.chapter-row small{color:var(--muted)}
+    .reader-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:15px}.reader-head h2{font:600 22px "Barlow Condensed",sans-serif;margin:0}.reader-tools{display:flex;gap:7px}.reader-pages{max-width:900px;margin:0 auto;background:#080808}.reader-pages img{display:block;width:100%;height:auto;min-height:180px;object-fit:contain;background:#171717}.page-failed{padding:22px;text-align:center;color:#bbb;background:#1a1a1a}.reader-bottom{display:flex;justify-content:center;gap:10px;padding:20px}.errorbox{padding:24px;border:1px solid #553333;background:#241919;border-radius:7px;margin:20px 0}.errorbox h3{margin:0 0 7px;color:#f0b1b1}.errorbox p{margin:0 0 15px;color:#c9a9a9;line-height:1.5}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#292929;border:1px solid #444;padding:10px 15px;border-radius:6px;z-index:50;display:none}
+    .pagination{display:flex;justify-content:center;gap:8px;margin:25px 0}.muted{color:var(--muted)}footer{border-top:1px solid var(--line);padding:22px;text-align:center;color:#777;font-size:12px}
+    @media(max-width:900px){.comic-grid,.skeleton-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.filterbar{grid-template-columns:repeat(3,1fr)}.filterbar input{grid-column:span 3}.hero{min-height:230px}}
+    @media(max-width:600px){.topbar{height:56px}.topinner{padding:0 13px;gap:16px}.brand{font-size:24px}nav{gap:13px}nav button{font-size:12px}.searchbox{width:38px;padding:0 9px;border:0;background:transparent}.searchbox input{display:none}.searchbox.open{position:absolute;left:10px;right:10px;top:9px;width:auto;background:#1b1b1b;border:1px solid #333}.searchbox.open input{display:block}main{padding:17px 13px 50px}.comic-grid,.skeleton-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 10px}.comic h3{font-size:11px}.hero{min-height:205px;margin-bottom:23px}.hero-copy{padding:18px}.hero h1{font-size:29px}.hero p{font-size:12px}.sectionhead{margin:24px 0 12px}.sectionhead h2{font-size:23px}.filterbar{grid-template-columns:repeat(2,1fr);gap:7px}.filterbar input{grid-column:span 2}.detail-layout{grid-template-columns:112px 1fr;gap:14px}.detail-info h1{font-size:25px}.detail-info p{font-size:12px;line-height:1.6}.detail-sub{font-size:11px}.detail-actions button{font-size:11px;padding:8px}.reader-head{align-items:flex-start;flex-direction:column}.reader-head h2{font-size:20px}.reader-tools{width:100%}.reader-tools button{flex:1}.chapter-row{padding:11px;font-size:12px}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topinner">
+    <a class="brand" href="#" onclick="goHome();return false">KOMIK<span>.</span></a>
+    <nav>
+      <button class="active" data-view="home" onclick="goHome()">Beranda</button>
+      <button data-view="search" onclick="openSearch()">Komik</button>
+      <button data-view="ranking" onclick="openRanking()">Populer</button>
+      <button data-view="bookmarks" onclick="openBookmarks()">Bookmark</button>
+    </nav>
+    <div class="searchbox" id="searchbox">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="quickSearch" placeholder="Cari judul komik..." onkeydown="if(event.key==='Enter')runQuickSearch()">
+    </div>
+  </div>
+</header>
+<main>
+  <section id="homeView" class="view active">
+    <div id="homeHero"></div>
+    <div class="sectionhead"><h2>Update Terbaru</h2><small>Chapter baru</small></div>
+    <div id="homeUpdates" class="comic-grid"></div>
+    <div class="sectionhead"><h2>Populer</h2><small>Paling banyak dibaca</small></div>
+    <div id="homePopular" class="comic-grid"></div>
+    <div class="sectionhead"><h2>Baru Rilis</h2><small>Komik pilihan terbaru</small></div>
+    <div id="homeNew" class="comic-grid"></div>
+  </section>
+  <section id="searchView" class="view">
+    <div class="sectionhead"><h2>Cari Komik</h2><small id="searchCount"></small></div>
+    <div class="filterbar">
+      <input class="field" id="filterQuery" placeholder="Judul atau kata kunci..." onkeydown="if(event.key==='Enter')runSearch(1)">
+      <select class="field" id="filterGenre"><option value="">Semua genre</option></select>
+      <select class="field" id="filterStatus"><option value="">Semua status</option><option value="ongoing">Berjalan</option><option value="completed">Tamat</option><option value="hiatus">Hiatus</option><option value="cancelled">Dibatalkan</option></select>
+      <select class="field" id="filterFormat"><option value="">Semua jenis</option><option value="manhwa">Manhwa</option><option value="manhua">Manhua</option><option value="manga">Manga</option><option value="webtoon">Webtoon</option></select>
+      <select class="field" id="filterSort"><option value="new">Terbaru</option><option value="popular">Terpopuler</option><option value="rating">Rating tertinggi</option><option value="az">A - Z</option><option value="bookmark">Paling disimpan</option><option value="newseries">Baru ditambahkan</option></select>
+      <button class="primary" onclick="runSearch(1)">Cari</button>
+    </div>
+    <div id="searchResults" class="comic-grid"></div><div id="searchPagination"></div>
+  </section>
+  <section id="detailView" class="view"><div id="detailContent"></div></section>
+  <section id="readerView" class="view"><div id="readerContent"></div></section>
+  <section id="rankingView" class="view">
+    <div class="sectionhead"><h2>Komik Populer</h2><select class="field" style="max-width:150px" id="rankingPeriod" onchange="loadRanking()"><option value="Daily">Hari ini</option><option value="Weekly">Minggu ini</option><option value="Monthly">Bulan ini</option><option value="All">Sepanjang masa</option></select></div>
+    <div id="rankingResults" class="comic-grid"></div>
+  </section>
+  <section id="bookmarksView" class="view">
+    <div class="sectionhead"><h2>Bookmark Saya</h2><small id="bookmarkCount"></small></div>
+    <div id="bookmarkResults" class="comic-grid"></div>
+  </section>
+  <div id="globalError"></div>
+</main>
+<footer>Komik. · Sumber data Voratoon · Dibuat untuk membaca dengan nyaman</footer>
+<div class="toast" id="toast"></div>
+<script>
+const API = '/.netlify/functions/voratoon';
+const $ = id => document.getElementById(id);
+let currentDetail = null, currentChapter = null, searchPage = 1, searchLastPage = 1;
+const bookmarks = {
+  get(){try{return JSON.parse(localStorage.getItem('komik_bookmarks')||'[]')}catch{return []}},
+  has(slug){return this.get().some(x=>x.slug===slug)},
+  toggle(item){let list=this.get();if(list.some(x=>x.slug===item.slug))list=list.filter(x=>x.slug!==item.slug);else list.unshift({slug:item.slug,title:item.title,coverImage:item.coverImage,status:item.status,totalChapters:item.totalChapters});localStorage.setItem('komik_bookmarks',JSON.stringify(list));}
+};
+function toast(msg){const el=$('toast');el.textContent=msg;el.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.style.display='none',2200)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function slugOf(item){return item?.slug||item?.url?.split('/series/')[1]?.split('/')[0]||''}
+function coverOf(item){return item?.coverImage||item?.backgroundImage||''}
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(name+'View').classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));$('globalError').innerHTML='';window.scrollTo(0,0)}
+function errorHTML(message,retry){return `<div class="errorbox"><h3>Data gagal dimuat</h3><p>${esc(message||'Terjadi kesalahan saat mengambil data.')}</p><button class="primary" onclick="${retry}">Coba Lagi</button></div>`}
+async function api(params={}){const url=API+'?'+new URLSearchParams(params);const res=await fetch(url,{headers:{'Accept':'application/json'}});let body;try{body=await res.json()}catch{throw new Error('Server mengirim respons yang tidak bisa dibaca.')}if(!res.ok||!body.ok)throw new Error(body.error||`Permintaan gagal (${res.status})`);return body.data}
+function skeleton(target,count=12){$(target).innerHTML=Array.from({length:count},()=>'<div><div class="sk-cover"></div><div class="sk-line"></div><div class="sk-line short"></div></div>').join('')}
+function card(item){const slug=slugOf(item),cover=coverOf(item);return `<article class="comic" onclick="openDetail('${encodeURIComponent(slug)}')"><div class="cover">${cover?`<img loading="lazy" src="${esc(cover)}" alt="${esc(item.title)}" onerror="this.style.display='none'">`:''}<span class="status">${esc(item.status||item.format||'Komik')}</span>${item.isHot?'<span class="hot">HOT</span>':''}</div><h3>${esc(item.title||'Tanpa judul')}</h3><div class="comic-meta"><span>Ch. ${esc(item.totalChapters||'—')}</span><span>${item.rating?`★ ${Number(item.rating).toFixed(1)}`:''}</span></div></article>`}
+function renderCards(target,items,empty='Belum ada komik.'){ $(target).innerHTML=items?.length?items.map(card).join(''):`<div class="empty" style="grid-column:1/-1">${esc(empty)}</div>`}
+async function goHome(){showView('home');skeleton('homeUpdates',12);skeleton('homePopular',12);skeleton('homeNew',6);$('homeHero').innerHTML='<div class="hero"><div class="hero-copy"><div class="sk-line" style="width:100px"></div><div class="sk-line" style="width:230px;height:25px"></div></div></div>';try{const d=await api({action:'home'});const hero=d.banner?.[0]||d.popular?.[0];$('homeHero').innerHTML=hero?`<div class="hero">${coverOf(hero)?`<img src="${esc(hero.backgroundImage||coverOf(hero))}" alt="">`:''}<div class="hero-copy"><div class="eyebrow">Pilihan editor</div><h1>${esc(hero.title)}</h1><p>${esc(hero.synopsis||'Lanjutkan membaca komik pilihan di sini.')}</p><button class="primary" onclick="openDetail('${encodeURIComponent(slugOf(hero))}')">Lihat Komik</button></div></div>`:'';renderCards('homeUpdates',d.updates);renderCards('homePopular',d.popular);renderCards('homeNew',d.newSeries)}catch(e){$('homeHero').innerHTML=errorHTML(e.message,'goHome()');$('homeUpdates').innerHTML='';$('homePopular').innerHTML='';$('homeNew').innerHTML=''}}
+function openSearch(){showView('search');loadGenres();if(!$('searchResults').children.length)runSearch(1)}
+function runQuickSearch(){const q=$('quickSearch').value.trim();$('filterQuery').value=q;openSearch();runSearch(1)}
+async function loadGenres(){if($('filterGenre').options.length>1)return;try{const list=await api({action:'genres'});$('filterGenre').innerHTML='<option value="">Semua genre</option>'+list.map(g=>`<option value="${esc(g.id)}">${esc(g.name)}</option>`).join('')}catch(e){/* Filter genre tetap bisa dipakai saat sumber pulih. */}}
+async function runSearch(page=1){showView('search');searchPage=page;skeleton('searchResults');$('searchPagination').innerHTML='';try{const d=await api({action:'search',q:$('filterQuery').value,genre:$('filterGenre').value,status:$('filterStatus').value,format:$('filterFormat').value,sort:$('filterSort').value,page});searchLastPage=d.meta?.lastPage||1;$('searchCount').textContent=`${d.meta?.total||d.count||0} hasil`;renderCards('searchResults',d.series,'Komik tidak ditemukan.');$('searchPagination').innerHTML=searchLastPage>1?`<div class="pagination"><button class="secondary" ${page<=1?'disabled':''} onclick="runSearch(${page-1})">Sebelumnya</button><span class="muted" style="padding:10px">${page} / ${searchLastPage}</span><button class="secondary" ${page>=searchLastPage?'disabled':''} onclick="runSearch(${page+1})">Berikutnya</button></div>`:''}catch(e){$('searchResults').innerHTML=errorHTML(e.message,`runSearch(${page})`)}}
+async function openDetail(encoded){const slug=decodeURIComponent(encoded);showView('detail');$('detailContent').innerHTML='<div class="detail-layout"><div class="sk-cover"></div><div><div class="sk-line" style="height:25px;width:60%"></div><div class="sk-line"></div><div class="sk-line"></div></div></div>';try{const d=await api({action:'detail',slug});currentDetail=d;renderDetail(d)}catch(e){$('detailContent').innerHTML=errorHTML(e.message,`openDetail('${encodeURIComponent(slug)}')`)}}
+function renderDetail(d){const slug=slugOf(d),saved=bookmarks.has(slug);$('detailContent').innerHTML=`<div class="detail-layout"><img class="detail-cover" src="${esc(coverOf(d))}" alt="${esc(d.title)}" onerror="this.style.opacity='.2'"><div class="detail-info"><div class="eyebrow">${esc(d.format||'Komik')} · ${esc(d.status||'')}</div><h1>${esc(d.title)}</h1><div class="detail-sub">${esc(d.author||'Penulis tidak diketahui')} · ${d.rating?'★ '+Number(d.rating).toFixed(1):'Belum ada rating'} · ${esc(d.totalChapters)} chapter</div><div class="tags">${(d.genres||[]).map(g=>`<span class="tag">${esc(g.name)}</span>`).join('')}</div><p>${esc(d.synopsis||'Sinopsis belum tersedia.')}</p><div class="detail-actions">${d.latestChapter?`<button class="primary" onclick="openChapter('${encodeURIComponent(slug)}','${encodeURIComponent(d.latestChapter.chapterIndex)}')">Baca Terbaru</button>`:''}${d.firstChapter?`<button class="secondary" onclick="openChapter('${encodeURIComponent(slug)}','${encodeURIComponent(d.firstChapter.chapterIndex)}')">Mulai dari Awal</button>`:''}<button class="quiet" onclick="toggleBookmark('${encodeURIComponent(slug)}')">${saved?'Hapus Bookmark':'＋ Bookmark'}</button></div></div></div><div class="sectionhead"><h2>Daftar Chapter</h2><small>${(d.chapters||[]).length} chapter</small></div><div class="chapter-list">${(d.chapters||[]).length?d.chapters.map(c=>`<a class="chapter-row" href="#" onclick="openChapter('${encodeURIComponent(slug)}','${encodeURIComponent(c.chapterIndex)}');return false"><span>${esc(c.title||'Chapter '+c.chapterIndex)}</span><small>${c.createdAt?new Date(c.createdAt).toLocaleDateString('id-ID'):'Baca'}</small></a>`).join(''):'<div class="empty">Daftar chapter belum tersedia.</div>'}</div>`}
+function toggleBookmark(encoded){const slug=decodeURIComponent(encoded);const d=currentDetail||bookmarks.get().find(x=>x.slug===slug);if(!d)return;bookmarks.toggle({slug,title:d.title,coverImage:coverOf(d),status:d.status,totalChapters:d.totalChapters});toast(bookmarks.has(slug)?'Ditambahkan ke bookmark':'Bookmark dihapus');if($('detailView').classList.contains('active'))renderDetail(d);if($('bookmarksView').classList.contains('active'))openBookmarks()}
+function openBookmarks(){showView('bookmarks');const list=bookmarks.get();$('bookmarkCount').textContent=`${list.length} komik`;renderCards('bookmarkResults',list,'Bookmark masih kosong.')}
+async function openChapter(encodedSlug,encodedChapter){const slug=decodeURIComponent(encodedSlug),chapter=decodeURIComponent(encodedChapter);showView('reader');$('readerContent').innerHTML='<div class="sk-line" style="height:25px;width:60%"></div><div class="sk-cover" style="aspect-ratio:3/4;margin:15px auto;max-width:700px"></div>';try{const d=await api({action:'chapter',slug,chapter});currentChapter=d;renderReader(d)}catch(e){$('readerContent').innerHTML=errorHTML(e.message,`openChapter('${encodeURIComponent(slug)}','${encodeURIComponent(chapter)}')`)}}
+function renderReader(d){const nav=d.navigation||{};$('readerContent').innerHTML=`<div class="reader-head"><div><div class="muted">${esc(d.seriesTitle)}</div><h2>${esc(d.title)}</h2></div><div class="reader-tools"><button class="secondary" ${nav.prev===null?'disabled':''} onclick="openChapter('${encodeURIComponent(d.seriesSlug)}','${encodeURIComponent(nav.prev)}')">← Sebelumnya</button><button class="secondary" ${nav.next===null?'disabled':''} onclick="openChapter('${encodeURIComponent(d.seriesSlug)}','${encodeURIComponent(nav.next)}')">Berikutnya →</button></div></div><div class="reader-pages">${(d.images||[]).map(img=>`<img loading="lazy" src="${esc(img.url)}" alt="Halaman ${img.page}" data-page="${img.page}" onerror="retryImage(this,0)">`).join('')||'<div class="empty">Gambar chapter tidak tersedia.</div>'}</div><div class="reader-bottom"><button class="secondary" ${nav.prev===null?'disabled':''} onclick="openChapter('${encodeURIComponent(d.seriesSlug)}','${encodeURIComponent(nav.prev)}')">← Chapter sebelumnya</button><button class="secondary" onclick="openDetail('${encodeURIComponent(d.seriesSlug)}')">Daftar chapter</button><button class="secondary" ${nav.next===null?'disabled':''} onclick="openChapter('${encodeURIComponent(d.seriesSlug)}','${encodeURIComponent(nav.next)}')">Chapter berikutnya →</button></div>`}
+function retryImage(img,attempt){if(attempt<3){setTimeout(()=>{const src=img.dataset.original||img.src;img.dataset.original=src;img.src=src+(src.includes('?')?'&':'?')+'_retry='+Date.now()},900*(attempt+1));img.onerror=()=>retryImage(img,attempt+1)}else{const box=document.createElement('div');box.className='page-failed';box.innerHTML=`Gambar halaman ${img.dataset.page} gagal dimuat. <button class="secondary" onclick="retryOne(this)">Coba lagi</button>`;img.replaceWith(box)}}
+function retryOne(btn){const box=btn.parentElement;const page=box.textContent.match(/halaman (\d+)/i)?.[1];const d=currentChapter?.images?.find(x=>String(x.page)===String(page));if(!d)return;const img=document.createElement('img');img.src=d.url;img.dataset.page=page;img.onerror=()=>retryImage(img,0);box.replaceWith(img)}
+async function openRanking(){showView('ranking');loadRanking()}
+async function loadRanking(){skeleton('rankingResults');try{const d=await api({action:'ranking',period:$('rankingPeriod').value});renderCards('rankingResults',d.comics)}catch(e){$('rankingResults').innerHTML=errorHTML(e.message,'loadRanking()')}}
+goHome();
+</script>
+</body>
+</html>
